@@ -16,7 +16,7 @@ int main(){
         printf("can not open cpuinfo\n");
         cpuName = "your cpu";
     }
-
+    
     char singleRow[MAXLEN];
     // read each row
     while(fgets(singleRow, MAXLEN, fp) != NULL){
@@ -52,15 +52,16 @@ int main(){
             break;  //stop getting row, if there is cpu name;
         }
     }
-
     fclose(fp);
-
     removeTailSpaces(cpuName);
+
+
     if(p[0] == 0x78){
         printf("%s is little endien\n", cpuName);
     }else{
         printf("%s is big endien\n", cpuName);
     }
+    return 0;
 }
 
 // remove unnecessary spaces at tail
