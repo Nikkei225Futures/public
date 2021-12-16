@@ -16,14 +16,14 @@ int main(){
         printf("can not open cpuinfo\n");
         cpuName = "your cpu";
     }
+    cpuName = "your cpu";
     
     char singleRow[MAXLEN];
     // read each row
     while(fgets(singleRow, MAXLEN, fp) != NULL){
         char *headAddr = strstr(singleRow, "model name");
-        if(headAddr == NULL){       // if there is no "model name" in singleRow
-            cpuName = "your cpu";
-        }else{                      // if "model name" included in singleRow
+        
+        if(headAddr != NULL){       // if "model name" included in singleRow
             int i = 0;
             int j = 0;
             int isAfterCoron = 1;   //use like boolean flag, 1 = false, 0 = true
@@ -49,7 +49,7 @@ int main(){
                 }
 
             }
-            break;  //stop getting row, if there is cpu name;
+            break;  //stop getting row, if there is cpu name("model name");
         }
     }
     fclose(fp);
@@ -65,6 +65,7 @@ int main(){
 }
 
 // remove unnecessary spaces at tail
+//(add '\0' from tail side until displayable letter appears)
 void removeTailSpaces(char* str){
     int strlength = strlen(str);
     for(int i = strlength-1; str[i] <= 32; i--){
