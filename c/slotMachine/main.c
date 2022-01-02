@@ -6,7 +6,7 @@
 #include<assert.h>
 
 #define REELLEN 10      // number of max reel value
-#define NUM_REELS 3     // number of reels to be shown
+#define NUM_REELS 5     // number of reels to be shown
 #define SLEEP_MILSEC 100*1000   //microSec -> milSec
 #define clearConsole() printf("\033[H\033[J")
 
@@ -16,6 +16,7 @@ typedef struct{
 }Reel;
 
 Reel *ConstructReel(int);
+void goAheadReels(Reel *[]);
 void goAheadReel(Reel *);
 int getCurrentReelValue(Reel *);
 void showCurrentDisplay(Reel *[]);
@@ -24,6 +25,7 @@ void validate(void);
 
 int main(){
     validate();
+    // test
     Reel *reel = ConstructReel(rand()%REELLEN);
     for(int i = 0; i < REELLEN; i++){
         printf("%d", getCurrentReelValue(reel));
@@ -31,6 +33,7 @@ int main(){
         printf(" next: %d", getCurrentReelValue(reel));
         printf("\n");
     }
+    //
 
     //create reel, init by random value
     Reel *reels[NUM_REELS];
@@ -39,17 +42,12 @@ int main(){
         reels[i] = ConstructReel(rand()%REELLEN);
     }
 
+    //rotate reels 
     for(;;){
         //clearConsole();
-        
         showCurrentDisplay(reels);
-        
-        //move reels point to next
-        for(int i = 0; i < NUM_REELS; i++){
-            goAheadReel(reels[i]);
-        }
-
-        usleep(SLEEP_MILSEC*10);
+        goAheadReels(reels);
+        usleep(SLEEP_MILSEC);
     }
 
 
@@ -65,8 +63,17 @@ Reel *ConstructReel(int initPoint){
     for(int i = 0; i < REELLEN; i++){
         reel->reel[i] = i;
     }
+    return reel;
 }
 
+//move multiple reels ahead
+void goAheadReels(Reel *reels[]){
+    for(int i = 0; i < NUM_REELS; i++){
+        goAheadReel(reels[i]);
+    }
+}
+
+//move one single reel ahead
 void goAheadReel(Reel *reel){
     //if index is not reached to tail, currentPoint++
     if(!(reel->currentPoint+1 == REELLEN)){
@@ -76,6 +83,7 @@ void goAheadReel(Reel *reel){
     }
 }
 
+//displaying current reels like | 1 | 2 | 3 |
 void showCurrentDisplay(Reel *reels[]){
     printf("|");
     int *currentValues = getCurrentDisplay(reels);
@@ -85,6 +93,7 @@ void showCurrentDisplay(Reel *reels[]){
     printf("\n");
 }
 
+//return current display(values) like {1, 2, 3}
 int *getCurrentDisplay(Reel *reels[]){
     int currentDisplay[NUM_REELS];
     for(int i = 0; i < NUM_REELS; i++){
@@ -94,6 +103,7 @@ int *getCurrentDisplay(Reel *reels[]){
     return vp;
 }
 
+//return current value of reel that is specified as an argument
 int getCurrentReelValue(Reel *reel){
     //printf("current reel val: %d", reel->reel[reel->currentPoint]);
     return reel->reel[reel->currentPoint];
