@@ -150,7 +150,7 @@ void* asyncKeyMonitor(void *structp){
         //if all input done, exit thread
         if(i == NUM_REELS){
             reelsInfo->isAllPushed = 1;
-            return 0;
+            pthread_exit(NULL);
         }
 
         int temp = getchar();
@@ -163,12 +163,12 @@ void* asyncKeyMonitor(void *structp){
 }
 
 void* asyncReelsRotator(void *structp){
+    ReelsInfo *reelsInfo = (ReelsInfo *)structp;
     for(;;){
-        ReelsInfo *reelsInfo = (ReelsInfo *)structp;
         clearConsole();
         // if all input done, exit thread
         if(reelsInfo->isAllPushed != 0){
-            return 0;
+            pthread_exit(NULL);
         }
         goAheadReels(reelsInfo->reels);
         showCurrentDisplay(reelsInfo->reels);
