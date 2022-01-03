@@ -7,7 +7,7 @@
 #include<pthread.h>
 
 #define REELLEN 10      // number of max reel value
-#define NUM_REELS 3     // number of reels to be shown
+#define NUM_REELS 10     // number of reels to be shown
 #define SLEEP_MILSEC 1000*1000   //microSec -> milSec
 #define clearConsole() printf("\033[H\033[J")
 #define ASCII_ENTER 10
@@ -38,6 +38,7 @@ void* asyncReelsRotator(void *);
 void fixAllReelValue(Reel *, int);
 
 int main(){
+    validate();
     //create reel, init by random value
     Reel *reels[NUM_REELS];
     srand((unsigned int)time(NULL));
