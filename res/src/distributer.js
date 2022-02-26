@@ -47,4 +47,9 @@ reader.on('line', line => {
 
 process.stdin.on('end', () => {
     console.log("readline end");
+    //ignore EOF
+    reader = require("readline").createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
 });
