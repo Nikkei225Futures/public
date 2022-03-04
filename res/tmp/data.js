@@ -1,12 +1,34 @@
 
-const TERM = 20;
+
+
+const fs = require('fs');
+const net = require('net');
+
+const data = new Data(50);
+
+const receiver = net.createServer(usock => {
+    console.log('unix domain socket connection open');
+    
+    usock.on('close', () => {
+        
+    });
+
+});
+
+try{
+    fs.unlinkSync('/tmp/unix.sock');    
+}catch(e){
+    console.error(e);
+}
+
+receiver.listen('/tmp/unix.sock');
 
 
 /**
  * @classdesc
  * class for data
  */
-class Data{
+ class Data{
     constructor(length){
         this.data = Array(length);
         this.time = Array(length);  //time = 10, 20, 30.....    
@@ -121,13 +143,12 @@ class Data{
     }
 
     /**
-     * 
-     * @returns {Boolean} - if did not send -> false, else true
+     * broadCast average value to clients
      */
     broadCast(){
         //if not enough data arrived, dont send
         if(this.count < TERM){
-            return false;
+            return;
         }
         let avg = this.getAverage(TERM);
         //console.log(`write ${avg}`);
@@ -135,13 +156,7 @@ class Data{
             this.clients[i].write(avg.toString() + ",");
         }
         this.count = 0;
-        return true;
     }
 }
 
-
-
-let data = new Data(50);
-
 exports.data = data;
-exports.TERM = TERM;
