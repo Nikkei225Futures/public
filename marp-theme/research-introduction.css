@@ -1,0 +1,11 @@
+/* @theme research-introduction */
+
+@import 'default';
+
+section{
+	justify-content: start;
+}
+
+h6{
+  margin-bottom: 5px;
+}
