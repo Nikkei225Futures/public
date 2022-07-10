@@ -1,0 +1,8 @@
+/* @theme upper */
+
+@import 'default';
+
+section{
+	justify-content: start;
+}
+
