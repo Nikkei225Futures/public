@@ -6,6 +6,6 @@ section{
 	justify-content: start;
 }
 
-h6{
+section.heading h6{
   	margin: 0;
 }
